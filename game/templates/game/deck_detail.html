@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}
+    Deck Details
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+    {% if deck %}
+        <p>{{ deck.name }}</p>
+    {% endif %}
+
+    {% for monster_card in monster_cards %}
+        {{ monster_card.name }}
+    {% endfor %}
+
+    {% for spell_card in spell_cards %}
+        {{ spell_card.name }}
+    {% endfor %}
+
+    </div>
+{% endblock %}

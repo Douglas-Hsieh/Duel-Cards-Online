@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if player_1_name %}{{ player_1_name }}{% else %}Player 1{% endif %}
+        vs
+    {% if player_2_name %}{{ player_2_name }}{% else %}Player 2{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1 id="winner"></h1>
+
+
+    <b>Players</b>
+    <table id="player-table">
+        <tr>
+            <td id="player-1">
+                <div id="player-1-profile-picture" class="portrait">
+                    <img src="{{ player_1_settings.profile_picture.url }}">
+                </div>
+                <div id="player-1-name">{{ player_1_name }}</div>
+                HP: <div id="player-1-hp">{{ player_1_hp }}</div>
+                Mana: <div id="player-1-mana">{{ player_1_mana }}</div>
+                Max Mana: <div id="player-1-max-mana">{{ player_1_max_mana }}</div>
+                Cards in Deck:<div id="player-1-deck-counter"></div>
+            </td>
+            <td id="player-2">
+                <div id="player-2-profile-picture" class="portrait">
+                    <img src="{{ player_2_settings.profile_picture.url }}">
+                </div>
+                <div id="player-2-name">{{ player_2_name }}</div>
+                HP: <div id="player-2-hp">{{ player_2_hp }}</div>
+                Mana: <div id="player-2-mana">{{ player_2_mana }}</div>
+                Max Mana: <div id="player-2-max-mana">{{ player_2_max_mana }}</div>
+                Cards in Deck:<div id="player-2-deck-counter"></div>
+            </td>
+        </tr>
+
+{#            <th><div id="player-1-name">{{ player_1_name }}</div></th>#}
+{#            <th><div id="player-2-name">{{ player_2_name }}</div></th>#}
+{##}
+{#            <td>HP: <div id="player-1-hp">{{ player_1_hp }}</div></td>#}
+{#            <td>HP: <div id="player-2-hp">{{ player_2_hp }}</div></td>#}
+{##}
+{#            <td>Mana: <div id="player-1-mana">{{ player_1_mana }}</div></td>#}
+{#            <td>Mana: <div id="player-2-mana">{{ player_2_mana }}</div></td>#}
+{##}
+{#            <td>Max Mana: <div id="player-1-max-mana">{{ player_1_max_mana }}</div></td>#}
+{#            <td>Max Mana: <div id="player-2-max-mana">{{ player_2_max_mana }}</div></td>#}
+{##}
+{#            <td>Cards in Deck:<div id="player-1-deck-counter"></div></td>#}
+{#            <td>Cards in Deck:<div id="player-2-deck-counter"></div></td>#}
+    </table>
+
+
+{# Try 1 #}
+{#<div class="container-fluid">#}
+{#  <div class="row">#}
+{#    <div class="card-group">#}
+{#    {% for i in '0123456' %}#}
+{##}
+{#      <div class="card player-1-field-card" data-player-1-field-card="{{ i }}">#}
+{##}
+{#        <div class="card-body">#}
+{##}
+{#            <div class="position">{{ i }}</div>#}
+{#            <h5 class="card-title name"></h5>#}
+{#        </div>#}
+{#        <img class="picture" src="">#}
+{#        <div class="card-body">#}
+{#            <small class="text-muted"><p class="card-text description"></p></small>#}
+{#            <span class="card-text cost"></span>#}
+{#            <span class="card-text attack"></span>#}
+{#            <span class="card-text hp"></span>#}
+{#        </div>#}
+{##}
+{#      </div>#}
+{#    {% endfor %}#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
+
+
+
+    <b>Field</b>
+    <table id="field-table">
+        <tr>
+            <th></th>
+
+            {% for i in '0123456' %}
+                <th>Monster {{ i }}</th>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <th>{{ player_1_name }}</th>
+
+            {% for i in '0123456' %}
+                <td>
+                    <div class="card player-1-field-card"
+                         data-player-1-field-card="{{ i }}">
+                        <div class="position">{{ i }}</div>
+                        <div class="name"></div>
+                        <img class="picture portrait">
+                        <div class="description"></div>
+                        <div class="cost"></div>
+                        <div class="attack"></div>
+                        <div class="hp"></div>
+                    </div>
+                </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>{{ player_2_name }}</th>
+
+            {% for i in '0123456' %}
+                <td>
+                    <div class="card player-2-field-card"
+                         data-player-2-field-card="{{ i }}">
+                        <div class="position">{{ i }}</div>
+                        <div class="name"></div>
+                        <img class="picture portrait">
+                        <div class="description"></div>
+                        <div class="cost"></div>
+                        <div class="attack"></div>
+                        <div class="hp"></div>
+                    </div>
+                </td>
+            {% endfor %}
+        </tr>
+    </table>
+
+    <b>Hand</b>
+    <table id="hand-table">
+        <tr>
+            {% for i in '0123456789' %}
+                <td>
+                    <div class="card hand-card"
+                        data-hand-card="{{ i }}">
+                        <div class="position">{{ i }}</div>
+                        <div class="name"></div>
+                        <img class="picture portrait">
+                        <div class="description"></div>
+                        <div class="cost"></div>
+                    </div>
+                </td>
+
+            {% endfor %}
+        </tr>
+    </table>
+
+
+
+    <button id="start-game-button">Start Game</button>
+    <button id="end-turn-button">End Turn</button>
+    <button id="surrender-button">Surrender</button>
+    <button id="delete-game">Delete Game</button>
+    <button id="summon-button">Summon</button>
+    <button id="attack">Attack</button>
+
+    <div>Turn:
+        <div id="turn"></div>
+    </div>
+
+    <br>
+
+    <textarea id="chat-log" cols="100" rows="10"></textarea><br>
+    <input id="chat-input">
+    <input id="chat-submit" type="submit">
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+    <script>
+        let roomName = '{{ room_name }}';
+        let username = '{{ request.user.username }}';
+        let player1Name = '{{ player_1_name }}';
+        let player2Name = '{{ player_2_name }}';
+    </script>
+
+    <script src="{% static 'game/room.js' %}"></script>
+
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'game/room.css' %}">
+{% endblock %}

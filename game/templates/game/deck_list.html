@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    List of Decks
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <p><a href="{% url 'game:deck_create'%}">Create a new deck</a></p>
+
+    {% for deck in decks %}
+        <div><a href="{% url 'game:deck_detail' deck.pk %}">{{ deck.name }}</a></div>
+    {% endfor %}
+    </div>
+{% endblock %}

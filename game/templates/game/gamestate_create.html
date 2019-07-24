@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Host a Game
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <p>Only numbers, letters, underscores and hyphens are allowed.</p>
+    <form method="POST" action="{% url 'game:host' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+    </form>
+    </div>
+{% endblock %}

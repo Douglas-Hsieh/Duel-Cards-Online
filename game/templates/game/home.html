@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+
+{# {% url 'url_name as specified in urls' %}  #}
+    <div class="container">
+        <p><a href="{% url 'game:public_card_list' %}">View Public Cards</a></p>
+        <p><a href="{% url 'game:private_card_list' %}">{{ request.user }}</a></p>
+        <p><a href="{% url 'game:card_search' %}">Search Cards</a></p>
+        <p><a href="{% url 'game:deck_list' %}">Manage Decks</a></p>
+        <p><a href="{% url 'game:create_monster_card' %}">Create a Monster Card</a></p>
+        <p><a href="{% url 'game:spell_card_create' %}">Create a Spell Card</a></p>
+        <p><a href="{% url 'game:room_list' %}">View active Games</a></p>
+        <p><a href="{% url 'game:host' %}">Create a Game</a></p>
+        <p><a href="{% url 'game:user_settings' %}">Manage User Settings</a></p>
+
+
+{#    <p>Host a game</p>#}
+{#    <input id="host-room-name-input" class="input-text" type="text">#}
+{#    <input id="host-room-name-submit" type="submit">#}
+
+    <p>Join a game</p>
+    <input id="join-room-name-input" class="input-text" type="text">
+    <input id="join-room-name-submit" type="submit">
+
+    </div>
+
+
+    {# TODO Users can create a new game by selecting a another User they wish to play with #}
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        {#let hostSubmit = $('#host-room-name-submit');#}
+        {#let hostInput = $('#host-room-name-input');#}
+        let joinSubmit = $('#join-room-name-submit');
+        let joinInput = $('#join-room-name-input');
+
+        /*
+        hostInput.keyup(function (e) {
+            if (e.keyCode === 13) {
+                hostSubmit.click();
+            }
+        });
+        hostSubmit.click(function () {
+            window.location.pathname = window.location.pathname + 'host/' + hostInput.val()
+        });
+        */
+
+        joinInput.focus();
+        joinInput.keyup(function (e) {
+            if (e.keyCode === 13) {
+                joinSubmit.click();
+            }
+        });
+        joinSubmit.click(function () {
+            window.location.pathname = window.location.pathname + 'room/' + joinInput.val()
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if card %}
+        {{ card.name }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+    {% if card %}
+        {# Card Name #}
+        <p>Name: {{ card.name }}</p>
+        <p>Creator: {{ card.creator }}</p>
+
+        {# Add this card to a deck #}
+        <p>Add this card to a deck</p>
+        {% if decks %}
+            <select class="add-card-select"
+                    data-add-card-url="{% url 'game:deck_add_monster_card' %}"
+            >
+            <option disabled selected value> -- select an option -- </option>
+            {% for deck in decks %}
+                <option class="add-card-option"
+                        value="{{ deck.pk }}">{{ deck.name }}</option>
+            {% endfor %}
+            </select>
+            <button id="add-card-submit-button" type="submit">Add to Deck</button>
+        {% endif %}
+
+        {# Edit this card #}
+        {#    TODO: Will not work for non monster cards    #}
+        <p><a href="{% url 'game:monster_card_update' card.pk %}">Edit this card</a></p>
+
+    {% endif %}
+
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        let select = $('.add-card-select');
+        let submit = $('#add-card-submit-button');
+        let deckPk;
+
+        // Add a change event listener to select that adds the card to the specified deck (using deck.pk)
+        select.change(function () {
+            deckPk = $(this).val()
+        });
+
+        submit.click(function () {
+            let option = select.children('option:selected');
+            $.ajax({
+                url: select.attr('data-add-card-url'),
+                method: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                data: {
+                    deckPk: deckPk,
+                    cardPk: {{ card.pk }},
+                },
+                success: function (data) {
+                    if (data.success) {
+                        alert('Card successfully added to deck')
+                    } else {
+                        alert('Error: Card not added to deck')
+                    }
+                }
+
+            })
+
+            // window.location = option.attr('data-add-card-url');  // Get request and makes the browser load this page
+        })
+
+
+    </script>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Search for a Card
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <!-- Search form -->
+        <div class="md-form mt-0">
+            <input id="searchbar" data-card-query-url="{% url 'game:card_query' %}" class="form-control" type="text" placeholder="Search" aria-label="Search">
+        </div>
+
+        <div class="row">
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <ul id="monster-card-list"></ul>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <ul id="spell-card-list"></ul>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'game/card_search.js' %}"></script>
+{% endblock %}

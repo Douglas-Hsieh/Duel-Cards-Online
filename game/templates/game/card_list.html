@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    List of Cards
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <table id="select-card-type-table">
+        <tr>
+            <th>Select Card Type</th>
+{#            <th>Select Deck to Add to</th>#}
+        </tr>
+        <tr>
+            <td>
+                <select id="card-select">
+                    <option disabled selected value> -- select an option -- </option>
+                    <option id="monster-option" value="monster">monster</option>
+                    <option id="spell-option" value="spell">spell</option>
+                </select>
+            </td>
+{#            <td>#}
+{#                <select id="deck-select">#}
+{#                    <option disabled selected value> -- select an option -- </option>#}
+{#                    {% for deck in decks %}#}
+{#                        <option id="deck-{{ deck.pk }}-option" class="deck-option" value="{{ deck.pk }}">{{ deck.name }}</option>#}
+{#                    {% endfor %}#}
+{#                </select>#}
+{#            </td>#}
+        </tr>
+    </table>
+
+    <table id='monster-table' style="display:none">
+        <tr>
+            <th>Creator</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Cost</th>
+            <th>HP</th>
+            <th>Attack</th>
+            {% if deck %}
+                <th>Add to {{ deck.name }}</th>
+            {% endif %}
+        </tr>
+
+        {% for monster in monsters %}
+        <tr>
+            <td>{{ monster.creator }}</td>
+            <td><a href="{% url 'game:monster_card_detail' monster.pk %}">{{ monster.name }}</a></td>
+            <td>{{ monster.description }}</td>
+            <td>{{ monster.cost }}</td>
+            <td>{{ monster.hp }}</td>
+            <td>{{ monster.attack }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <table id='spell-table' style="display:none">
+        <tr>
+            <th>Creator</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Cost</th>
+            <th>Effect</th>
+        </tr>
+
+        {% for spell in spells %}
+        <tr>
+            <td>{{ spell.creator }}</td>
+            <td><a href="{% url 'game:spell_card_detail' spell.pk %}">{{ spell.name }}</a></td>
+            <td>{{ spell.description }}</td>
+            <td>{{ spell.cost }}</td>
+            <td>{{ spell.effect }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+
+{#    {% for card in object_list %}#}
+{#        ID: {{ card.id }}, Cost: {{ card.cost }}, Description:{{ card.description }}, Name: {{ card.name }}<br>#}
+{#    {% endfor %}#}
+    </div>
+{% endblock %}
+
+
+
+{% block javascript %}
+    <script>
+        let cardSelect = $('#card-select');
+        let monsterTable = $('#monster-table');
+        let spellTable = $('#spell-table');
+
+        // Show what user what he chooses to see
+        cardSelect.change(function () {
+            if ($(this).val() === 'monster') {
+                monsterTable.show();
+                spellTable.hide();
+            }
+            else if ($(this).val() === 'spell') {
+                monsterTable.hide();
+                spellTable.show();
+            }
+        });
+
+    </script>
+{% endblock %}
